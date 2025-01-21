@@ -23,8 +23,10 @@ except ImportError:
             print('WARNING: ' + entry)
         def info(self, entry):
             print('INFO: ' + entry)
-        def debug(self, entry, value=None):
-            if value:
+        def debug(self, entry, value=None, value2=None):
+            if value2:
+                print('DEBUG: ' + entry % (value,value2) )
+            elif value:
                 print('DEBUG: ' + entry % value)
             else:
                 print('DEBUG: ' + entry)
@@ -680,7 +682,7 @@ class Job(object):
             # Let's see if we will still make that time we specified today
             if (self.next_run - datetime.datetime.now(tz=timezone.utc)).days >= 7:
                 self.next_run -= self.period
-        log.debug("Job %s re-scheduled to run at %s", self, self.next_run)
+        log.debug("Job %s re-scheduled to run at %s", self, self.next_run )
 
     def _is_overdue(self, when: datetime.datetime):
         return self.cancel_after is not None and when > self.cancel_after
